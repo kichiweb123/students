@@ -1,7 +1,6 @@
 <?php
-$search = $table->clearStr($_POST['search']);
+$cells = $table->search();
 echo "Найдены запросы по слову \"$search\":<br>";
-$cells = $table->search($search);
 
 
 

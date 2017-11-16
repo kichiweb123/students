@@ -1,8 +1,18 @@
 <?php
 ob_start();
 header("Content-type: text/html; charset=utf-8");
-require_once "Table.class.php";
-$table = new Table();
+
+
+function my_autoloader($class){
+	if(is_file('model/'.$class.'.class.php')){
+		include 'model/'.$class.'.class.php';
+	}else{
+		include 'controller/'.$class.'.class.php';
+	}
+}
+
+spl_autoload_register('my_autoloader');
+$table = new TableModel();
 $cells = ""; /* ячейки под таблицу ассоциативную */
 
 if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_SERVER['QUERY_STRING'] == "id=registration")){
@@ -10,7 +20,7 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_SERVER['QUERY_STRING'] == "id=r
 }
 
 
-$id = $table->clearStr($_GET['id']);
+$id = $_GET['id'];
 
 
 ?>
@@ -19,8 +29,8 @@ $id = $table->clearStr($_GET['id']);
 <head>
 	<meta charset="utf-8">
 	<title>Абитуриент</title>
-	<link href="bootstrap.css" rel="stylesheet">
-	<link href="style.css" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 <?php

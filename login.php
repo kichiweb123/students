@@ -1,6 +1,4 @@
 <?php 
-$login = $table->clearStr($_POST['login']);
-$pass = $table->clearStr($_POST['pass']);
 
 
 ?>

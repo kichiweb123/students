@@ -1,8 +1,7 @@
 <?php
-$sort = $table->clearStr($_GET['sort']);
 $perPage = 5;
 $numOfRows = $table->numOfRows();
-$cells = $table->getTable($sort, $numOfRows, $perPage);
+$cells = $table->getTable($numOfRows, $perPage);
 ?>
 <div class="row content">
 		<div class="col-md-5 table">
@@ -35,4 +34,5 @@ $cells = $table->getTable($sort, $numOfRows, $perPage);
 
 <?php
 $table->pages($numOfRows, $perPage);
+require_once "view/pages.phtml";
 ?>

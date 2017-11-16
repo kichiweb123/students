@@ -1,12 +1,9 @@
-
 <?php
-
-class Table{
+class TableModel{
 	const DB_ADDR = "localhost";
 	const DB_LOGIN = "root";
 	const DB_PASS = "";
 	const DB_NAME = "table";
-
 
 	public $_db = null;
 
@@ -14,21 +11,36 @@ class Table{
 		$this->_db = new mysqli(self::DB_ADDR, self::DB_LOGIN, self::DB_PASS, self::DB_NAME);
 	}
 
-	function saveTable($login, $password, $name, $second_name, $grup, $email, $score, $age, $local, $sex){
+	function saveTable(){
+		global $login;
+		global $password;
+		$data = new TableControllerRegistration();
+		$login = $data->login;
+		$password = $data->pass;
+		$name = $data->name;
+		$second_name = $data->sname;
+		$grup = $data->grup;
+		$email = $data->email;
+		$score = $data->score;
+		$age = $data->age;
+		$local = $data->local;
+		$sex = $data->sex;
+
+
 		global $errors;
 		$error = array();
-		global $errorForTable;
-		$errorForTable = array();
+
+
 		if(!$login){
 			$errors['login'] = 'Заполните логин';
 		}
 		if(!$password){
 			$errors['pass'] = 'Заполните пароль';
 		}
-		if($name>15 or !$name){
+		if((strlen($name)>15) or !$name){
 			$errors['name'] = 'Ошибка в имени';
 		}
-		if($second_name>15 or !$second_name){
+		if((strlen($second_name)>15) or !$second_name){
 			$errors['second_name'] = 'Ошибка в фамилии';	
 		}
 		if(!$grup){
@@ -53,7 +65,7 @@ class Table{
 		$res = $this->_db->query($sql);
 		while($row = $res->fetch_array(MYSQLI_ASSOC)){
 			
-			if($row['login'] == $_POST['login']){
+			if($row['login'] == $login){
 				$errors['login_exsist'] = "Такой логин уже зарегистрирован";
 			}
 		}
@@ -65,13 +77,13 @@ class Table{
 			}		
 		}
 		
-		echo $errors['login'];
+		
 	}
+	function getTable($numOfRows, $perPage){
+		$data = new TableControllerPages();
+		$page = $data->pageid;
+		$sort = $data->sort;
 
-	function getTable($sort, $numOfRows, $perPage){
-
-		$numOfPages = ceil($numOfRows/$perPage);
-		$page = $_GET['id'];
 		$start = $page*$perPage;
 
 		switch($sort){
@@ -99,31 +111,30 @@ class Table{
 		return $arr;
 	}
 	function pages($numOfRows, $perPage){
-		$page = $_GET['id'];
-		$sort = $_GET['sort'];
-		$numOfPages = ceil($numOfRows/$perPage);
-		echo "<div class='pag_num'>";
-		if(!$page == 0){
-			echo "<a href='?id=".($page-1)."&sort={$_GET['sort']}'>Назад </a>";
-		}
-		for($i=0; $i<$numOfPages; $i++){
-			if($sort){
-			echo "<a href='?id={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
-			}else{
-				echo "<a href='?id={$i}'>".($i+1)."</a>";
-			}
-		}
-		if(!($page == ($numOfPages-1))){
-			echo "<a href='?id=".($page+1)."&sort={$_GET['sort']}'> Вперед</a>";
-
-		}
-		echo "</div>";
+		global $numOfPages;
+		global $page;
+		$data = new TableControllerPages;
+		$page = $data->pageid;
+		$sort = $data->sort;
+		$numOfPages = ceil($numOfRows/$perPage);	
 	}
+
+	function numOfRows(){
+		$sql = "SELECT * from data";
+		$result = $this->_db->query($sql);
+		echo $this->_db->error;
+		return $this->_db->affected_rows;
+	}
+
 	function editProfile(){
+		$data = new TableControllerCookie();
+		$login = $data->login;
+		$pass = $data->pass;
+
 		$sql = "SELECT name, second_name, grup, email, score, age, localy, sex
 				FROM data
-				WHERE login = '{$_COOKIE['login']}'
-				AND pass = '{$_COOKIE['pass']}'";
+				WHERE login = '{$login}'
+				AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		if(!$result){
@@ -136,12 +147,25 @@ class Table{
 		return $arr;
 	}
 
-	function checkAndUpdateProfile($name, $second_name, $grup, $email, $score, $age){
+	function checkAndUpdateProfile(){
+		$data = new TableControllerRegistration();
+		$name = $data->name;
+		$second_name = $data->sname;
+		$grup = $data->grup;
+		$email = $data->email;
+		$score = $data->score;
+		$age = $data->age;
+
+		$cookie = new TableControllerCookie();
+		$login = $cookie->login;
+		$pass = $cookie->pass;
+		
+
 		if($name){
 			$sql = "UPDATE data
 					SET name = '$name'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 
@@ -149,40 +173,40 @@ class Table{
 		if($second_name){
 			$sql = "UPDATE data
 					SET second_name = '$second_name'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		}
 		if($grup){
 			$sql = "UPDATE data
 					SET grup = '$grup'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		}
 		if($email){
 			$sql = "UPDATE data
 					SET email = '$email'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		}
 		if($score){
 			$sql = "UPDATE data
 					SET score = '$score'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		}
 		if($age){
 			$sql = "UPDATE data
 					SET age = '$age'
-					WHERE login = '{$_COOKIE['login']}'
-					AND pass = '{$_COOKIE['pass']}'";
+					WHERE login = '{$login}'
+					AND pass = '{$pass}'";
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		}
@@ -208,9 +232,12 @@ class Table{
 		}
 	}
 
+	function search(){
+		global $search;
+		$data = new TableControllerSearch();
+		$search = $data->search;
 
 
-	function search($search){
 		$sql = "SELECT name, second_name, grup, score FROM data 
 				WHERE name LIKE '%$search%'
 				OR second_name LIKE '%$search%'
@@ -225,23 +252,6 @@ class Table{
 		}
 		return $arr;
 	}
-
-	function numOfRows(){
-		$sql = "SELECT * from data";
-		$result = $this->_db->query($sql);
-		echo $this->_db->error;
-		return $this->_db->affected_rows;
-	}
-
-	function clearStr($str){
-		return trim(strip_tags($str));
-	}
-
-
-	function clearInt($int){
-		return abs((int)$int);
-	}
-
 
 }
 ?>

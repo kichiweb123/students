@@ -8,7 +8,7 @@
 		}else{
 			echo "<span style='color:red;'>{$errors['login']}</span><br>";
 		}
-
+		
 		?>
 
 		<label for="pass">Пароль(Обязательно для заполнения)</label>
@@ -41,7 +41,7 @@
 
   </div>
 	<div class="form-check">
- 	Проживание обязательно выбрать<br>
+ 	<?php echo "<span style='color:red;'>{$errors['local']}</span><br>"; ?>
 	  <label class="form-check-label">
 	    <input class="form-check-input" type="radio" name="local" id="exampleRadios1" value="local1">
 	    Местный
@@ -55,10 +55,10 @@
 	  </label>
 	</div>
 
-	<?php echo "<span style='color:red;'>{$errors['local']}</span><br>"; ?>
+	
 	<div class="form-check">
 
-		Пол обязательно выбрать<br>
+	<?php echo "<span style='color:red;'>{$errors['sex']}</span><br>"; ?>
 	  <label class="form-check-label">
 	    <input class="form-check-input" type="radio" name="sex" id="exampleRadios1" value="male">
 	    Мужской
@@ -70,6 +70,6 @@
 	    Женский
 	  </label>
 	</div>
-	<?php echo "<span style='color:red;'>{$errors['sex']}</span><br>"; ?>
+	
 	<button type="submit" class="btn btn-primary">Отправить</button>
 </form>

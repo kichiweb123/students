@@ -1,0 +1,28 @@
+.menu{
+	list-style: none;
+	float:right;
+	padding-top:20px;
+	padding-right:75px;
+}
+.menu a{
+	display:inline-block;
+	
+}
+.header{
+	border-bottom: 1px solid black;
+	background: #aca5ef;
+}
+.refer{
+	padding-top: 10px;
+}
+.table{
+	
+}
+.search{
+	padding-top: 10px !important;
+    float: right !important;
+}
+.pag_num{
+	font-size: 20px;
+	padding-left: 100px;
+}

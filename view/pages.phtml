@@ -1,17 +1,40 @@
 <?php
 echo "<div class='pag_num'>";
-	if(!$page == 0){
-		echo "<a href='?id=".($page-1)."&sort={$_GET['sort']}'>Назад </a>";
-	}
-	for($i=0; $i<$numOfPages; $i++){
-		if($sort){
-		echo "<a href='?id={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
+
+	if(!$offset == 0){
+
+
+
+	if($_GET['id'] == 'search'){
+
+			echo "<a href='?id=search&p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
 		}else{
-			echo "<a href='?id={$i}'>".($i+1)."</a>";
+			echo "<a href='?p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
+		}
+	}	
+	for($i=0; $i<$pages; $i++){
+		if($_GET['id'] == 'search'){
+			if($sort){
+			echo "<a href='?id=search&p={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
+			}else{
+				echo "<a href='?id=search&p={$i}'>".($i+1)."</a>";
+			}
+		}else{
+			if($sort){
+			echo "<a href='?p={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
+			}else{
+				echo "<a href='?p={$i}'>".($i+1)."</a>";
+			}
 		}
 	}
-	if(!($page == ($numOfPages-1))){
-		echo "<a href='?id=".($page+1)."&sort={$_GET['sort']}'> Вперед</a>";
+	if(!($offset == ($pages-1))){
+
+		if($_GET['id'] == 'search'){
+
+			echo "<a href='?id=search&p=".($offset+1)."&sort={$_GET['sort']}'> Вперед</a>";
+		}else{
+			echo "<a href='?p=".($offset+1)."&sort={$_GET['sort']}'> Вперед</a>";
+		}
 
 	}
 echo "</div>";

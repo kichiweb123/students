@@ -1,19 +1,11 @@
-<?php
-$cells = $table->search();
-echo "Найдены запросы по слову \"$search\":<br>";
-
-
-
-?>
-
 <div class="row content">
-		<div class="col-md-5 table">
+		<div class="col-md-10 table">
 			<table>
 				<thead>
 					<tr>
-						<th>Имя</th>
-						<th>Фамилия</th>
-						<th>Номер группы</th>
+						<th><a href="?sort=name">Имя</th>
+						<th><a href="?sort=second_name">Фамилия</th>
+						<th><a href="?sort=grup">Номер группы</th>
 						<th>Число баллов</th>
 					</tr>
 				</thead>

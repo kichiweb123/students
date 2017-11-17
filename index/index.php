@@ -4,19 +4,19 @@ header("Content-type: text/html; charset=utf-8");
 
 
 function my_autoloader($class){
-	if(is_file('model/'.$class.'.class.php')){
-		include 'model/'.$class.'.class.php';
+	if(is_file('../model/'.$class.'.class.php')){
+		include '../model/'.$class.'.class.php';
 	}else{
-		include 'controller/'.$class.'.class.php';
+		include '../controller/'.$class.'.class.php';
 	}
 }
 
 spl_autoload_register('my_autoloader');
-$table = new TableModel();
+$table = new TableStudentsGateway();
 $cells = ""; /* ячейки под таблицу ассоциативную */
-
+$perPage = 6;/*переменная отвечает за количество выводимых строк в таблице*/
 if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_SERVER['QUERY_STRING'] == "id=registration")){
-	require_once "save_table.php";
+	require_once "../save_table.php";
 }
 
 
@@ -24,26 +24,13 @@ $id = $_GET['id'];
 
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Абитуриент</title>
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
-</head>
-<body>
-<?php
 
-
-?>
-<div class="container-fluid">
 
 
 	<!-- Начало хедера -->
 
 	<?php
-		require_once "header.php";
+		require_once "../view/header.phtml";
 	?>
 
 
@@ -59,29 +46,29 @@ $id = $_GET['id'];
 	
 	switch($id){
 		case 'registration':
-			include 'registration.php';
+			include '../view/registration.phtml';
 			break;
 		case 'login':
-			include 'login.php';
+			include '../controller/ControllerLogin.php';
 			break;
 		case 'edit_profile':
-			include 'edit_profile.php';
+			include '../controller/ControllerProfile.php';
 			break;
 		case 'del_cook':
-			include 'del_cook.php';
+			include '../del_cook.php';
 			break;
 		case 'search':
-			include 'search.php';
+			include '../controller/ControllerSearch.php';
 			break;
 		default:
-			include 'table.php'; 
+			include '../controller/ControllerTable.php'; 
 	}
 	
 ob_flush();
 ?>
 
 	<!-- Конец контента -->
-</div>
+
 
 </body>
 </html>

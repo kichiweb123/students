@@ -1,8 +1,8 @@
 <?php
-setcookie("login", "1", 1);
-setcookie("pass", "2", 1);
+$auth = new Authorisation();
+$auth->exitLogin();
 
-header('Location: index.php');
+header('Location: http://test1.ru');
 
 
 

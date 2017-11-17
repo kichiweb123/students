@@ -1,10 +1,5 @@
 <?php 
 
-
-?>
-
-<?php 
-
 if(!($_POST['login'] and $_POST['pass'])){
 ?>
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
@@ -19,12 +14,14 @@ if(!($_POST['login'] and $_POST['pass'])){
 	<button type="submit" class="btn btn-primary">Войти</button>
 </form>
 <?php
-}elseif(!$table->login()){
+}elseif(!$table->isLogin($login)){
 	echo "<p>Вы неправильно ввели данные.</p><a href='?id=login'>Попробовать еще раз</a>";
 }else{
+	$auth = new Authorisation();
+	$auth->authLogin($login, $pass);
 ?>
 <p>Вы вошли как: <?php echo $_POST['login']; ?></p>
-<p><a href='index.php' >Вернуться на главную!</a></p>
+<p><a href='http://test1.ru' >Вернуться на главную!</a></p>
 <p><a href='?id=edit_profile'>Редактировать профиль</a>
 <?php
 }

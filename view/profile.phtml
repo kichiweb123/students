@@ -1,18 +1,13 @@
-<?php
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	require_once "check_and_update_profile.php";
-}
-$editProf = $table->editProfile();
-?>
-
 <form action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<div class="form-group col-md-6">
 
-		<label for="name">Имя:<?php echo $editProf[0]['name']; ?></label>
+		<label for="name">Имя:<?php echo $editProf[0]['name']; ?>(Не больше 15 символов)</label>
 		<input type="text" class="form-control" name="name">
+		<?php echo "<span style='color:red;'>{$errors['name']}</span><br>"; ?>
 
-		<label for="second_name">Фамилия: <?php echo $editProf[0]['second_name']; ?></label>
+		<label for="second_name">Фамилия: <?php echo $editProf[0]['second_name']; ?>(Не больше 15 символов)</label>
 		<input type="text" class="form-control" name="second_name">
+		<?php echo "<span style='color:red;'>{$errors['second_name']}</span><br>"; ?>
 
 		<label for="grup">Номер группы: <?php echo $editProf[0]['grup']; ?></label>
 		<input type="text" class="form-control" name="grup">
@@ -20,8 +15,9 @@ $editProf = $table->editProfile();
 		<label for="email">Емейл: <?php echo $editProf[0]['email']; ?></label>
 		<input type="email" class="form-control" name="email">
 
-		<label for="score">Баллы ЕГЭ: <?php echo $editProf[0]['score']; ?></label>
+		<label for="score">Баллы ЕГЭ: <?php echo $editProf[0]['score']; ?>(Не больше 300)</label>
 		<input type="text" class="form-control" name="score">
+		<?php echo "<span style='color:red;'>{$errors['score']}</span><br>"; ?>
 
 		<label for="age">Год рождения: <?php echo $editProf[0]['age']; ?></label>
 		<input type="text" class="form-control" name="age">

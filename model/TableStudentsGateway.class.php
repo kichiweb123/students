@@ -179,20 +179,7 @@ class TableStudentsGateway{
 			$sql = "SELECT login, pass
 					FROM data
 					";
-		if($login){
-			$result = $this->_db->query($sql);
-			echo $this->_db->error;
-
-			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				if($row['login'] == $login){
-					
-					return true;
-				}else{
-				
-					return false;
-				}
-			}
-		}
+		
 		if($login and $pass){
 			$result = $this->_db->query($sql);
 			echo $this->_db->error;

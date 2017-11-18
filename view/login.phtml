@@ -14,7 +14,7 @@ if(!($_POST['login'] and $_POST['pass'])){
 	<button type="submit" class="btn btn-primary">Войти</button>
 </form>
 <?php
-}elseif(!$table->isLogin($login)){
+}elseif(!$table->isLogin($login, $pass)){
 	echo "<p>Вы неправильно ввели данные.</p><a href='?id=login'>Попробовать еще раз</a>";
 }else{
 	$auth = new Authorisation();

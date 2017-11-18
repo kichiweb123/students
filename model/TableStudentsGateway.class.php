@@ -1,4 +1,6 @@
+
 <?php
+/*Класс нужен для соединия с БД, добавление, обновления, получения, поиска по БД*/
 class TableStudentsGateway{
 	const DB_ADDR = "localhost";
 	const DB_LOGIN = "root";

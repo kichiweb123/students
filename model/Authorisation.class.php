@@ -1,4 +1,5 @@
 <?php
+/*Класс нужен для установки, удаления кук*/
 class Authorisation{
 	function authLogin($login, $pass){
 		setcookie("login", "$login", 0x7FFFFFFF, '/', null, false, true);

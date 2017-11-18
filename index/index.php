@@ -16,7 +16,7 @@ $table = new TableStudentsGateway();
 $cells = ""; /* ячейки под таблицу ассоциативную */
 $perPage = 5;/*переменная отвечает за количество выводимых строк в таблице*/
 if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_SERVER['QUERY_STRING'] == "id=registration")){
-	require_once "../save_table.php";
+	require_once "../saveStudent.php";
 }
 
 

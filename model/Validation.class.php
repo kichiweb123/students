@@ -1,4 +1,5 @@
 <?php
+/*Класс нужен для проверки форм*/
 class Validation{
 	function validateStudent($login, $password, $name, $second_name, $grup, $email, $score, $age, $local, $sex){
 		$errors = array();

@@ -1,40 +1,56 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Абитуриент</title>
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
 	<div class="row header">
 		<div class="col-md-2 refer">
-			<h3><a href="http://test1.ru">Абитуриент.ру</a></h3>
+			<h3><a href="<?php echo $_SERVER['PHP_SELF']; ?>">Абитуриент.ру</a></h3>
 		</div>
 		<div class="col-md-10">
 			<ul class="menu">
 				<?php
 				if($_COOKIE['login'] and $_COOKIE['pass']){
-				echo "<a href=\"?id=edit_profile\">";
-					echo "<li style='padding-right:5px;'>Редактировать</li>";
-				echo "</a>";
+
+				?>
+					<li style='padding-right:5px;'>
+						<a href="?id=edit_profile">
+						Редактировать
+						</a>
+					</li>
+				<?php
 				}
 				if(!($_COOKIE['login'] and $_COOKIE['pass'])){
 				?>
-				<a href="?id=registration">
-					<li>Регистрация</li>
-				</a>
+					<li>
+						<a href="?id=registration">
+						Регистрация
+						</a>
+					</li>
 				<?php
 				}
 				if($_COOKIE['login'] and $_COOKIE['pass']){
-					echo "<a href=\"?id=del_cook\">";
-					echo "<li>Выход</li>";
-					echo "</a>";
+				?>
+					<li>
+						<a href="?id=del_cook">
+						Выход
+						</a>
+					</li>
+				<?php
 				}else{
-					echo "<a href=\"?id=login\">";
-					echo "<li>Логин</li>";
-					echo "</a>";
+				?>
+					<li>
+						<a href="?id=login">
+						Логин
+						</a>
+					</li>
+				<?php
 				}
 				?>
 			</ul>
@@ -50,4 +66,3 @@
 
 	</div>
 </div>
-</body>

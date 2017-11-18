@@ -14,10 +14,12 @@ class TableStudentsGateway{
 	function addStudent($login, $password, $name, $second_name, $grup, $email, $score, $age, $local, $sex){
 
 		
-		if(!$this->_db->query("INSERT INTO data (login, pass, name, second_name, grup, email, score, age, localy, sex)
-							VALUES('$login', '$password', '$name', '$second_name', '$grup', '$email', '$score', '$age', '$local', '$sex')")){
+			$stmt = $this->_db->prepare("INSERT INTO data(login, pass, name, second_name, grup, email, score, age, localy, sex)
+							VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("ssssssssss", $login, $password, $name, $second_name, $grup, $email, $score, $age, $local, $sex);
+			$stmt->execute();
 			echo $this->_db->error;
-			}			
+				
 	}
 	function getStudent($offset, $perPage, $sort = ''){
 
@@ -46,19 +48,31 @@ class TableStudentsGateway{
 		return ceil($getStudentCount/$perPage);	
 	}
 
-	function getStudentCount(){
+	function getStudentCount($search = '', $offset = '', $perPage =''){
+		$start = $perPage*$offset;
+		if($search){
+		$sql = "SELECT name, second_name, grup, score FROM data 
+				WHERE name LIKE '%$search%'
+				OR second_name LIKE '%$search%'
+				OR grup LIKE '%$search%'
+				OR score LIKE '%$search%' 
+				ORDER BY score DESC";
+		}else{
 		$sql = "SELECT * from data";
+		}
 		$result = $this->_db->query($sql);
 		echo $this->_db->error;
 		return $this->_db->affected_rows;
 	}
 
 	function getAuthUser($login, $pass){
-		$sql = "SELECT name, second_name, grup, email, score, age, localy, sex
+		$stmt = $this->_db->prepare("SELECT name, second_name, grup, email, score, age, localy, sex
 				FROM data
-				WHERE login = '{$login}'
-				AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+				WHERE login = ?
+				AND pass = ?");
+		$stmt->bind_param("ss", $login, $pass);
+		$stmt->execute();
+		$result = $stmt->get_result();
 		echo $this->_db->error;
 		if(!$result){
 			echo "ошибка";
@@ -73,53 +87,59 @@ class TableStudentsGateway{
 
 	function refreshStudent($login, $pass, $name, $second_name, $grup, $email, $score, $age){
 		if($name){
-			$sql = "UPDATE data
-					SET name = '$name'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET name = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $name, $login, $pass);
+			$stmt->execute();
+
 		echo $this->_db->error;
 	
 		}	
-		print_r($errors);
 		if($second_name){
-			$sql = "UPDATE data
-					SET second_name = '$second_name'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET second_name = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $second_name, $login, $pass);
+			$stmt->execute();
 		echo $this->_db->error;
 		}
 		if($grup){
-			$sql = "UPDATE data
-					SET grup = '$grup'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET grup = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $grup, $login, $pass);
+			$stmt->execute();
 		echo $this->_db->error;
 		}
 		if($email){
-			$sql = "UPDATE data
-					SET email = '$email'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET email = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $email, $login, $pass);
+			$stmt->execute();
 		echo $this->_db->error;
 		}
 		if($score){
-			$sql = "UPDATE data
-					SET score = '$score'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET score = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $score, $login, $pass);
+			$stmt->execute();
 		echo $this->_db->error;
 		}
 		if($age){
-			$sql = "UPDATE data
-					SET age = '$age'
-					WHERE login = '{$login}'
-					AND pass = '{$pass}'";
-		$result = $this->_db->query($sql);
+			$stmt = $this->_db->prepare("UPDATE data
+					SET age = ?
+					WHERE login = ?
+					AND pass = ?");
+			$stmt->bind_param("sss", $age, $login, $pass);
+			$stmt->execute();
 		echo $this->_db->error;
 		}
 

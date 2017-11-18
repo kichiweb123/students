@@ -1,4 +1,5 @@
 <?php
+
 $login = $_COOKIE['login'];
 $pass = $_COOKIE['pass'];
 

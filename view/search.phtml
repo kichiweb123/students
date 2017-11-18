@@ -1,12 +1,39 @@
-<?php echo "Найдены запросы по слову \"$search\":<br>"; ?>
+<?php 
+if($search){
+	echo "Найдены запросы по слову \"$search\":<br>"; 
+}else{
+	echo "Найдены запросы по слову \"$search1\":<br>";
+}
+?>
 <div class="row content">
 		<div class="col-md-10 table">
 			<table>
 				<thead>
 					<tr>
-						<th><a href="?id=search&sort=name">Имя</th>
-						<th><a href="?id=search&sort=second_name">Фамилия</th>
-						<th><a href="?id=search&sort=grup">Номер группы</th>
+						<th><a href="?id=search&search=<?php
+						if($search){ 
+						echo $search;
+						}else{
+							echo $search1;
+						}
+						?>&sort=name">Имя</th>
+						<th><a href="?id=search&search=<?php 
+
+						if($search){
+							echo $search;
+						}else{
+							echo $search1;
+						}
+
+
+						?>&sort=second_name">Фамилия</th>
+						<th><a href="?id=search&search=<?php
+						if($search){
+						echo $search;
+						}else{
+							echo $search1;
+						}
+						?>&sort=grup">Номер группы</th>
 						<th>Число баллов</th>
 					</tr>
 				</thead>

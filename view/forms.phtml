@@ -1,5 +1,8 @@
 <form action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post">
 	<div class="form-group col-md-6">
+		<?php
+		if($_GET['id'] == 'registration'){
+		?>
 		<label for="login">Логин(Обязательно для заполнения)</label>
 		<input type="text" class="form-control" name="login" id="login">
 		<?php 
@@ -15,31 +18,92 @@
 		<input type="password" class="form-control" name="pass" id="pass">
 		<?php echo "<span style='color:red;'>{$errors['pass']}</span><br>"; ?>
 
-		<label for="name">Имя(Обязательно для заполнения, не больше 15 символов)</label>
+		<?php
+		}
+		?>
+		<label for="name">Имя
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['name'], ENT_QUOTES);
+			}
+			if($_GET['id'] == 'registration'){
+				echo "(Обязательно для заполнения, не больше 15 символов)";
+			}else{
+				echo "(Не больше 15 символов)";
+			}
+			
+		?></label>
 		<input type="text" class="form-control" name="name" id="name">
 		<?php echo "<span style='color:red;'>{$errors['name']}</span><br>"; ?>
 
-		<label for="second_name">Фамилия(Обязательно для заполнения, не больше 15 символов)</label>
+		<label for="second_name">Фамилия
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['second_name'], ENT_QUOTES);
+			}
+			if($_GET['id'] == 'registration'){
+				echo "(Обязательно для заполнения, не больше 15 символов)";
+			}else{
+				echo "(Не больше 15 символов)";
+			}
+
+		?></label>
 		<input type="text" class="form-control" name="second_name" id="second_name">
 		<?php echo "<span style='color:red;'>{$errors['second_name']}</span><br>"; ?>
 
-		<label for="grup">Номер группы(Обязательно для заполнения)</label>
+		<label for="grup">Номер группы
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['grup'], ENT_QUOTES);
+			}
+			if($_GET['id'] == 'registration'){
+				echo "(Обязательно для заполнения)";
+			}	
+
+		?></label>
 		<input type="text" class="form-control" name="grup" id="grup">
 		<?php echo "<span style='color:red;'>{$errors['grup']}</span><br>"; ?>
 
-		<label for="email">Емейл(Обязательно для заполнения)</label>
+		<label for="email">Емейл
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['email'], ENT_QUOTES);
+			}
+			if($_GET['id'] == 'registration'){
+				echo "Обязательно для заполнения)";
+			}
+
+		?></label>
 		<input type="email" class="form-control" name="email" id="email">
 		<?php echo "<span style='color:red;'>{$errors['email']}</span><br>"; ?>
 
-		<label for="score">Баллы ЕГЭ</label>
+		<label for="score">Баллы ЕГЭ
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['score'], ENT_QUOTES);
+			}
+
+		?>(Не больше 300)</label>
 		<input type="text" class="form-control" name="score" id="score">
 		<?php echo "<span style='color:red;'>{$errors['score']}</span><br>"; ?>
 
-		<label for="age">Год рождения(Обязательно для заполнения)</label>
+		<label for="age">Год рождения
+		<?php 
+			if($_GET['id'] == 'edit_profile'){
+				echo ":".htmlspecialchars($editProf[0]['age'], ENT_QUOTES);
+			}
+			if($_GET['id'] == 'registration'){
+				echo "(Обязательно для заполнения)";
+			}
+
+		?></label>
 		<input type="text" class="form-control" name="age" id="age">
 		<?php echo "<span style='color:red;'>{$errors['age']}</span><br>"; ?>
 
 	</div>
+	<?php
+	if($_GET['id'] == 'registration'){
+	?>
 	<div class="form-check">
  	<?php echo "<span style='color:red;'>{$errors['local']}</span><br>"; ?>
 	  <label class="form-check-label">
@@ -70,6 +134,8 @@
 	    Женский
 	  </label>
 	</div>
-	
+	<?php
+	}
+	?>
 	<button type="submit" class="btn btn-primary">Отправить</button>
 </form>

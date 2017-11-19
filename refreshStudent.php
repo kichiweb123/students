@@ -1,17 +1,29 @@
 <?php
 
 
-$name = $_POST['name'];
-$sname = $_POST['second_name'];
-$grup = $_POST['grup'];
-$email = $_POST['email'];
-$score = $_POST['score'];
-$age = $_POST['age'];
+$data['name'] = $_POST['name'];
+$data['sname'] = $_POST['second_name'];
+$data['grup'] = $_POST['grup'];
+$data['email'] = $_POST['email'];
+$data['score'] = $_POST['score'];
+$data['age'] = $_POST['age'];
 
 
 $val = new Validation();
-$errors = $val->validateProfile($name, $sname, $score);
+$errors = $val->validateProfile($data['name'], $data['sname'], $data['score']);
 if(!$errors){
-	$table->refreshStudent($login, $pass, $name, $sname, $grup, $email, $score, $age);
+    try{
+    $table->refreshStudent($data);
+    }catch(Exception $e){
+        $error = $e->getMessage();
+        $error = $error."\r\n";
+        
+        if(is_file($file)){
+            error_log($error, 3, $file);
+        }
+        header('Location: error.php');
+        exit;
+    }
+
 }
 ?>

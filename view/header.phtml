@@ -4,8 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>Абитуриент</title>
-	<link href="../css/bootstrap.css" rel="stylesheet">
-	<link href="../css/style.css" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -19,6 +19,9 @@
 				if($_COOKIE['login'] and $_COOKIE['pass']){
 
 				?>
+					<li class="authUser">
+						Вы вошли как <span class="user"><?php echo $arr[0]['name']; ?></span>
+					</li>
 					<li style='padding-right:5px;'>
 						<a href="?id=edit_profile">
 						Редактировать

@@ -1,22 +1,34 @@
 <?php
-$login = $_POST['login'];
-$pass = $_POST['pass'];
-$name = $_POST['name'];
-$sname = $_POST['second_name'];
-$grup = $_POST['grup'];
-$email = $_POST['email'];
-$score = $_POST['score'];
-$age = $_POST['age'];
-$local = $_POST['local'];
-$sex = $_POST['sex'];
+$data = array();
+$data['login'] = $_POST['login'];
+$data['pass'] = $_POST['pass'];
+$data['name'] = $_POST['name'];
+$data['sname'] = $_POST['second_name'];
+$data['grup'] = $_POST['grup'];
+$data['email'] = $_POST['email'];
+$data['score'] = $_POST['score'];
+$data['age'] = $_POST['age'];
+$data['local'] = $_POST['local'];
+$data['sex'] = $_POST['sex'];
 
 
 $val = new Validation();
-$errors = $val->validateStudent($login, $pass, $name, $sname, $grup, $email, $score, $age, $local, $sex);
+$errors = $val->validateStudent($data);
 $auth = new Authorisation();
 if(!$errors){
-$table->addStudent($login, $pass, $name, $sname, $grup, $email, $score, $age, $local, $sex);
-$auth->authLogin($login, $pass);
+try{
+$table->addStudent($data);
+}catch(Exception $e){
+    $error = $e->getMessage();
+    $error = $error."\r\n";
+    
+    if(is_file($file)){
+        error_log($error, 3, $file);
+    }
+    header('Location: error.php');
+    exit;
+}
+$auth->authLogin($data['login'], $data['pass']);
 header('Location: http://test1.ru/?id=edit_profile');
 
 }

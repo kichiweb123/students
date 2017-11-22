@@ -28,18 +28,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `login` text,
-  `pass` text,
-  `name` text,
-  `second_name` text,
+  `login` varchar(40) NOT NULL,
+  `pass` text NOT NULL,
+  `name` text NOT NULL,
+  `second_name` text NOT NULL,
   `grup` text NOT NULL,
-  `email` text,
-  `score` text,
-  `age` text,
-  `localy` text,
-  `sex` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
+  `email` text NOT NULL,
+  `score` SMALLINT NOT NULL,
+  `age` YEAR NOT NULL,
+  `localy` ENUM('local1','local2') NOT NULL,
+  `sex` ENUM('male', 'female') NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (login)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=56 ;
 
 --
 -- Дамп данных таблицы `data`

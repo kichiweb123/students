@@ -15,6 +15,7 @@ spl_autoload_register('my_autoloader');
 
 $file = 'errors.log';
 
+
 try{
 $table = new TableStudentsGateway();
 }catch(Exception $e){

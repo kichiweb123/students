@@ -45,8 +45,9 @@ class TableStudentsGateway{
             if(!$stmt){
                 throw new Exception('Ошибка в запросе при получении студентов');
             }
-            $stmt->bind_param("ii", $start, $perPage);
-            $stmt->execute();
+            $param = $stmt->bind_param("ii", $start, $perPage);
+            echo $this->_db->error;
+            $run = $stmt->execute();
         }else{
             $stmt = $this->_db->prepare("SELECT name, second_name, grup, score FROM data ORDER BY score DESC LIMIT ?, ?"); 
 

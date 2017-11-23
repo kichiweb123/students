@@ -38,12 +38,16 @@ class Validation{
         $check = new TableStudentsGateway();
 
         if($check->isLogin($data['login'])){
-                $errors['login_exsist'] = "Такой логин уже зарегистрирован";
-            }
+            $errors['login_exsist'] = "Такой логин уже зарегистрирован";
+        }
+        if($check->checkEmailForForms($data['email'])){
+            $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
+        }
         return $errors;
 
+
     }
-    function validateProfile($name, $second_name, $score){
+    function validateProfile($name, $second_name, $score, $email){
         $errors = array();
 
         if((strlen($name)>25)){
@@ -54,6 +58,11 @@ class Validation{
         }
         if($score>300 or $score<0){
             $errors['score'] = 'Ошибка в баллах ЕГЭ';
+        }
+
+        $check = new TableStudentsGateway();
+        if($check->checkEmailForForms($email)){
+            $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
         }
         return $errors;
 

@@ -2,9 +2,9 @@
 <?php
 /*Класс нужен для соединия с БД, добавление, обновления, получения, поиска по БД*/
 class TableStudentsGateway{
-    const DB_ADDR = "localhost";
-    const DB_LOGIN = "root";
-    const DB_PASS = "";
+    const DB_ADDR = "test1.ru";
+    const DB_LOGIN = "mysql";
+    const DB_PASS = "mysql";
     const DB_NAME = "table";
 
     public $_db = null;
@@ -302,12 +302,10 @@ class TableStudentsGateway{
             echo $this->_db->error;
 
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
-                if(($row['login'] == $login) and ($row['pass'] == $pass)){
+                $hash = password_verify($pass, $row['pass']);
+                if(($row['login'] == $login) and ($hash)){
                     
-                    return true;
-                }else{
-                
-                    return false;
+                    return $row['pass'];
                 }
             }
         }
@@ -315,15 +313,28 @@ class TableStudentsGateway{
             $result = $this->_db->query($sql);
             echo $this->_db->error;
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
                 if($row['login'] == $login){
                 
                     return true;
-                }else{
-                    return false;
                 }
             }
         }
 
+    }
+
+    function checkEmailForForms($email){
+        $sql = "SELECT email from data";
+        $result = $this->_db->query($sql);
+        echo $this->_db->error;
+
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
+            
+                if($row['email'] == $email){
+                    
+                    return true;
+                }
+            }
     }
 
 }

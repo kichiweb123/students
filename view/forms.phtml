@@ -70,12 +70,18 @@
 				echo ":".htmlspecialchars($editProf[0]['email'], ENT_QUOTES);
 			}
 			if($_GET['id'] == 'registration'){
-				echo "Обязательно для заполнения)";
+				echo "(Обязательно для заполнения)";
 			}
 
 		?></label>
 		<input type="email" class="form-control" name="email" id="email">
-		<?php echo "<span style='color:red;'>{$errors['email']}</span><br>"; ?>
+		<?php 
+		if($errors['email_exsist']){
+			echo "<span style='color:red;'>{$errors['email_exsist']}</span><br>";
+		}else{
+			echo "<span style='color:red;'>{$errors['email']}</span><br>"; 
+		}
+		?>
 
 		<label for="score">Баллы ЕГЭ
 		<?php 
@@ -107,14 +113,14 @@
 	<div class="form-check">
  	<?php echo "<span style='color:red;'>{$errors['local']}</span><br>"; ?>
 	  <label class="form-check-label">
-	    <input class="form-check-input" type="radio" name="local" id="exampleRadios1" value="local1">
+	    <input class="form-check-input" type="radio" name="local" id="exampleRadios1" value="resident">
 	    Местный
 	  </label>
 	</div>
 
 	<div class="form-check">
 	  <label class="form-check-label">
-	    <input class="form-check-input" type="radio" name="local" id="exampleRadios2" value="local2">
+	    <input class="form-check-input" type="radio" name="local" id="exampleRadios2" value="foreign">
 	    Иногородний
 	  </label>
 	</div>

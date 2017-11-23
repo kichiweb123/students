@@ -1,7 +1,7 @@
 <?php
 $data = array();
-$data['login'] = $_POST['login'];
-$data['pass'] = $_POST['pass'];
+$data['login'] = strtolower($_POST['login']);
+$data['pass'] = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 $data['name'] = $_POST['name'];
 $data['sname'] = $_POST['second_name'];
 $data['grup'] = $_POST['grup'];
@@ -10,7 +10,6 @@ $data['score'] = $_POST['score'];
 $data['age'] = $_POST['age'];
 $data['local'] = $_POST['local'];
 $data['sex'] = $_POST['sex'];
-
 
 $val = new Validation();
 $errors = $val->validateStudent($data);
@@ -28,6 +27,7 @@ $table->addStudent($data);
     header('Location: error.php');
     exit;
 }
+echo $data['pass'];
 $auth->authLogin($data['login'], $data['pass']);
 header('Location: http://test1.ru/?id=edit_profile');
 

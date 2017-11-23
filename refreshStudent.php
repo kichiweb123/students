@@ -4,13 +4,13 @@
 $data['name'] = $_POST['name'];
 $data['sname'] = $_POST['second_name'];
 $data['grup'] = $_POST['grup'];
-$data['email'] = $_POST['email'];
+$data['email'] = strtolower($_POST['email']);
 $data['score'] = $_POST['score'];
 $data['age'] = $_POST['age'];
 
 
 $val = new Validation();
-$errors = $val->validateProfile($data['name'], $data['sname'], $data['score']);
+$errors = $val->validateProfile($data['name'], $data['sname'], $data['score'], $data['email']);
 if(!$errors){
     try{
     $table->refreshStudent($data);

@@ -15,8 +15,8 @@ $search1 = $_GET['search'];
 
 if($search1){
     try{
-    $cells = $table->findPage($search1, $offset, $perPage, $sort);
-    $rows = $table->getStudentCount($search1, $offset, $perPage);
+    $cells = $container['TableStudentsGateway']->findPage($search1, $offset, $perPage, $sort);
+    $rows = $container['TableStudentsGateway']->getStudentCount($search1, $offset, $perPage);
     }catch(Exception $e){
         $error = $e->getMessage();
         $error = $error."\r\n";

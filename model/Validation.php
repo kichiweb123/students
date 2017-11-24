@@ -1,6 +1,13 @@
 <?php
 /*Класс нужен для проверки форм*/
 class Validation{
+    public $tableStudentGateway;
+    public $authorisation;
+    function __construct(TableStudentsGateway $TableStudentsGateway, Authorisation $Authorisation){
+        $this->tableStudentGateway = $TableStudentsGateway;
+        $this->authorisation = $Authorisation;
+    }
+
     function validateStudent(array $data){
         $errors = array();
 
@@ -16,8 +23,8 @@ class Validation{
         if((strlen($data['sname'])>25) or !$data['sname']){
             $errors['second_name'] = 'Ошибка в фамилии';    
         }
-        if(!$data['grup']){
-            $errors['grup'] = 'Заполните группу';
+        if(!$data['class']){
+            $errors['class'] = 'Заполните группу';
         }
         if(!$data['email']){
             $errors['email'] = 'Заполните email';
@@ -35,12 +42,12 @@ class Validation{
             $errors['sex'] = 'Выберите пол';
         }
 
-        $check = new TableStudentsGateway();
+        
 
-        if($check->isLogin($data['login'])){
+        if($this->authorisation->isLogin($data['login'])){
             $errors['login_exsist'] = "Такой логин уже зарегистрирован";
         }
-        if($check->checkEmailForForms($data['email'])){
+        if($this->authorisation->isEmailUsed($data['email'])){
             $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
         }
         return $errors;
@@ -60,8 +67,7 @@ class Validation{
             $errors['score'] = 'Ошибка в баллах ЕГЭ';
         }
 
-        $check = new TableStudentsGateway();
-        if($check->checkEmailForForms($email)){
+        if($this->authorisation->isEmailUsed($email)){
             $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
         }
         return $errors;

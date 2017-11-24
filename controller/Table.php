@@ -1,6 +1,7 @@
 <?php
 try{
-$numOfRows = $table->getStudentCount();
+$numOfRows = $container['TableStudentsGateway']->getStudentCount();
+
 }catch(Exception $e){
     $error = $e->getMessage();
     $error = $error."\r\n";
@@ -15,7 +16,7 @@ $offset = $_GET['p'];
 
 $sort = false;
 
-$whiteList = array('name', 'second_name', 'grup');
+$whiteList = array('name', 'second_name', 'class');
 
 foreach($whiteList as $list){
     if($list == $_GET['sort']){
@@ -25,7 +26,7 @@ foreach($whiteList as $list){
 
 
 try{
-$cells = $table->getStudent($offset, $perPage, $sort);
+$cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort);
 }catch(Exception $e){
     $error = $e->getMessage();
     $error = $error."\r\n";
@@ -39,6 +40,7 @@ $cells = $table->getStudent($offset, $perPage, $sort);
 }
 
 require_once "../view/table.phtml";
-$pages = $table->getPageCount($numOfRows, $perPage);
+$util = New Util();
+$pages = $util->getPageCount($numOfRows, $perPage);
 require_once "../view/pages.phtml";
 ?>

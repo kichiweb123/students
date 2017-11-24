@@ -15,9 +15,11 @@ spl_autoload_register('my_autoloader');
 
 $file = 'errors.log';
 
-
 try{
-$table = new TableStudentsGateway();
+$container['connect'] = new ConnectDb();
+$container['TableStudentsGateway'] = new TableStudentsGateway($container['connect']);
+$container['Authorisation'] = new Authorisation($container['TableStudentsGateway']);
+$container['Validation'] = new Validation($container['TableStudentsGateway'], $container['Authorisation']);
 }catch(Exception $e){
     $error = $e->getMessage();
     $error = $error."\r\n";
@@ -37,7 +39,6 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_GET['id'] == "registration")){
 
 $id = $_GET['id'];
 
-
 ?>
 
 
@@ -45,7 +46,7 @@ $id = $_GET['id'];
     <!-- Начало хедера -->
 
     <?php
-        $arr = $table->getAuthUser($_COOKIE['login'], $_COOKIE['pass']);
+        $arr = $container['TableStudentsGateway']->getAuthUser($_COOKIE['login'], $_COOKIE['pass']);
         require_once "../view/header.phtml";
     ?>
 

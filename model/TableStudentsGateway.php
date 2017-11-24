@@ -1,39 +1,37 @@
 
 <?php
+
+
 /*Класс нужен для соединия с БД, добавление, обновления, получения, поиска по БД*/
 class TableStudentsGateway{
-    const DB_ADDR = "test1.ru";
-    const DB_LOGIN = "mysql";
-    const DB_PASS = "mysql";
-    const DB_NAME = "table";
 
-    public $_db = null;
+   
 
-    function __construct(){
-         $connect = $this->_db = new mysqli(self::DB_ADDR, self::DB_LOGIN, self::DB_PASS, self::DB_NAME);
-         if($this->_db->connect_error){
-            throw new Exception('Невозможно подключиться к БД');
-         }
+    public $db = null;
+    
 
+    function __construct(ConnectDb $connect){
+       
+        $this->db = $connect;
 
     }
 
     function addStudent(array $data){
 
-            $stmt = $this->_db->prepare("INSERT INTO data(login, pass, name, second_name, grup, email, score, age, localy, sex)
+            $stmt = $this->db->connect->prepare("INSERT INTO data(login, password_hash, name, second_name, class, email, score, birth_year, localy, sex)
                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при добавлении студентов');
+                throw new Exception('Ошибка в запросе при добавлении студентов:'.$this->db->error);
             }
-            $param = $stmt->bind_param("ssssssssss", $data['login'], $data['pass'], $data['name'], $data['sname'], $data['grup'], $data['email'], $data['score'], $data['age'], $data['local'], $data['sex']);
+            $param = $stmt->bind_param("ssssssssss", $data['login'], $data['hash'], $data['name'], $data['sname'], $data['class'], $data['email'], $data['score'], $data['age'], $data['local'], $data['sex']);
             $run = $stmt->execute();
             
                 
             if(!$param){
-                throw new Exception('Ошибка в задании параметров при добавлении студентов');
+                throw new Exception('Ошибка в задании параметров при добавлении студентов:'.$this->db->error);
             }
             if(!$run){
-                throw new Exception('Ошибка при исполнении добавления студентов');
+                throw new Exception('Ошибка при исполнении добавления студентов:'.$this->db->error);
             }
     }
     function getStudent($offset, $perPage, $sort = ''){
@@ -41,31 +39,29 @@ class TableStudentsGateway{
         $start = $perPage*$offset;
 
         if($sort){
-            $stmt = $this->_db->prepare("SELECT name, second_name, grup, score FROM data ORDER BY $sort LIMIT ?, ?");
+            $stmt = $this->db->connect->prepare("SELECT name, second_name, class, score FROM data ORDER BY $sort LIMIT ?, ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при получении студентов');
+                throw new Exception('Ошибка в запросе при получении студентов:'.$this->db->error);
             }
             $param = $stmt->bind_param("ii", $start, $perPage);
-            echo $this->_db->error;
+            echo $this->db->error;
             $run = $stmt->execute();
         }else{
-            $stmt = $this->_db->prepare("SELECT name, second_name, grup, score FROM data ORDER BY score DESC LIMIT ?, ?"); 
+            $stmt = $this->db->connect->prepare("SELECT name, second_name, class, score FROM data ORDER BY score DESC LIMIT ?, ?"); 
 
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при получении студентов');
+                throw new Exception('Ошибка в запросе при получении студентов:'.$this->db->error);
             }
             $param = $stmt->bind_param("ii", $start, $perPage);
             $run = $stmt->execute();
         }
             if(!$param){
-                throw new Exception('Ошибка в задании параметров при получении студентов');
+                throw new Exception('Ошибка в задании параметров при получении студентов:'.$this->db->error);
             }
             if(!$run){
-                throw new Exception('Ошибка при исполнении получении студентов');
+                throw new Exception('Ошибка при исполнении получении студентов:'.$this->db->error);
             }
-        if($this->_db->error){
-            echo "3";
-        }
+        
                 
         $result = $stmt->get_result();
 
@@ -77,58 +73,55 @@ class TableStudentsGateway{
         return $arr;
 
     }
-    function getPageCount($getStudentCount, $perPage){
-
-        return ceil($getStudentCount/$perPage); 
-    }
+    
 
     function getStudentCount($search = '', $offset = '', $perPage =''){
         $start = $perPage*$offset;
         $likeSearch = '%'.$search.'%';
         if($search){
-        $stmt = $this->_db->prepare("SELECT name, second_name, grup, score FROM data 
+        $stmt = $this->db->connect->prepare("SELECT COUNT(*) FROM data 
                 WHERE name LIKE ?
                 OR second_name LIKE ?
-                OR grup LIKE ?
+                OR class LIKE ?
                 OR score LIKE ? 
                 ORDER BY score DESC");
         if(!$stmt){
-                throw new Exception('Ошибка в запросе при подсчёте студентов');
+                throw new Exception('Ошибка в запросе при подсчёте студентов:'.$this->db->error);
             }
         $param = $stmt->bind_param("ssss", $likeSearch, $likeSearch, $likeSearch, $likeSearch);
         $run = $stmt->execute();
         }else{
-        $stmt = $this->_db->prepare("SELECT * from data");
+        $stmt = $this->db->connect->prepare("SELECT COUNT(*) from data");
         $param = 1;
         $run = $stmt->execute();
         }
         if(!$param){
-            throw new Exception('Ошибка в задании параметров при получении кол-ва студентов');
+            throw new Exception('Ошибка в задании параметров при получении кол-ва студентов:'.$this->db->error);
             }
         if(!$run){
-            throw new Exception('Ошибка при исполнении количества студентов');
+            throw new Exception('Ошибка при исполнении количества студентов:'.$this->db->error);
         }
 
         $result = $stmt->get_result();
-        return $this->_db->affected_rows;
+        return $result;
     }
 
     function getAuthUser($login, $pass){
-        $stmt = $this->_db->prepare("SELECT name, second_name, grup, email, score, age, localy, sex
+        $stmt = $this->db->connect->prepare("SELECT name, second_name, class, email, score, birth_year
                 FROM data
                 WHERE login = ?
-                AND pass = ?");
+                AND password_hash = ?");
         if(!$stmt){
-                throw new Exception('Ошибка в запросе при авторизации');
+                throw new Exception('Ошибка в запросе при авторизации:'.$this->db->error);
             }
         $param = $stmt->bind_param("ss", $login, $pass);
         $run = $stmt->execute();
         $result = $stmt->get_result();
         if(!$param){
-            throw new Exception('Ошибка в задании параметров при авторизации');
+            throw new Exception('Ошибка в задании параметров при авторизации:'.$this->db->error);
             }
         if(!$run){
-            throw new Exception('Ошибка при исполнении авторизации');
+            throw new Exception('Ошибка при исполнении авторизации:'.$this->db->error);
         }
         $arr = array();
         while($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -140,107 +133,107 @@ class TableStudentsGateway{
 
     function refreshStudent(array $data){
         if($data['name']){
-            $stmt = $this->_db->prepare("UPDATE data
+            $stmt = $this->db->connect->prepare("UPDATE data
                     SET name = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении имени');
+                throw new Exception('Ошибка в запросе при обновлении имени:'.$this->db->error);
             }
             $param1 = $stmt->bind_param("sss", $data['name'], $data['login'], $data['pass']);
             $run1 = $stmt->execute();
 
             if(!$param1){
-                throw new Exception('Ошибка при изменении параметров имени');
+                throw new Exception('Ошибка при изменении параметров имени:'.$this->db->error);
             }
             if(!$run1){
-                throw new Exception('Ошибка при исполнении изменения имени');
+                throw new Exception('Ошибка при исполнении изменения имени:'.$this->db->error);
             }
     
         }   
         if($data['sname']){
-            $stmt = $this->_db->prepare("UPDATE data
+            $stmt = $this->db->connect->prepare("UPDATE data
                     SET second_name = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении фамилии');
+                throw new Exception('Ошибка в запросе при обновлении фамилии:'.$this->db->error);
             }
             $param2 = $stmt->bind_param("sss", $data['sname'], $data['login'], $data['pass']);
             $run2 = $stmt->execute();
             if(!$param2){
-                throw new Exception('Ошибка при изменении параметров фамилии');
+                throw new Exception('Ошибка при изменении параметров фамилии:'.$this->db->error);
             }
             if(!$run2){
-                throw new Exception('Ошибка при исполнении изменения фамилии');
+                throw new Exception('Ошибка при исполнении изменения фамилии:'.$this->db->error);
             }
         }
-        if($data['grup']){
-            $stmt = $this->_db->prepare("UPDATE data
-                    SET grup = ?
+        if($data['class']){
+            $stmt = $this->db->connect->prepare("UPDATE data
+                    SET class = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении группы');
+                throw new Exception('Ошибка в запросе при обновлении группы:'.$this->db->error);
             }
-            $param3 = $stmt->bind_param("sss", $data['grup'], $data['login'], $data['pass']);
+            $param3 = $stmt->bind_param("sss", $data['class'], $data['login'], $data['pass']);
             $run3 = $stmt->execute();
             if(!$param3){
-                throw new Exception('Ошибка при изменении параметров группы');
+                throw new Exception('Ошибка при изменении параметров группы:'.$this->db->error);
             }
             if(!$run3){
-                throw new Exception('Ошибка при исполнении изменения группы');
+                throw new Exception('Ошибка при исполнении изменения группы:'.$this->db->error);
             }
         }
         if($data['email']){
-            $stmt = $this->_db->prepare("UPDATE data
+            $stmt = $this->db->connect->prepare("UPDATE data
                     SET email = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении емейла');
+                throw new Exception('Ошибка в запросе при обновлении емейла:'.$this->db->error);
             }
             $param4 = $stmt->bind_param("sss", $data['email'], $data['login'], $data['pass']);
             $run4 = $stmt->execute();
             if(!$param4){
-                throw new Exception('Ошибка при изменении параметров емейла');
+                throw new Exception('Ошибка при изменении параметров емейла:'.$this->db->error);
             }
             if(!$run4){
-                throw new Exception('Ошибка при исполнении изменения емейла');
+                throw new Exception('Ошибка при исполнении изменения емейла:'.$this->db->error);
             }
         }
         if($data['score']){
-            $stmt = $this->_db->prepare("UPDATE data
+            $stmt = $this->db->connect->prepare("UPDATE data
                     SET score = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении баллов ЕГЭ');
+                throw new Exception('Ошибка в запросе при обновлении баллов ЕГЭ:'.$this->db->error);
             }
             $param5 = $stmt->bind_param("sss", $data['score'], $data['login'], $data['pass']);
             $run5 = $stmt->execute();
             if(!$param5){
-                throw new Exception('Ошибка при изменении параметров баллов ЕГЭ');
+                throw new Exception('Ошибка при изменении параметров баллов ЕГЭ:'.$this->db->error);
             }
             if(!$run5){
-                throw new Exception('Ошибка при исполнении изменения баллов ЕГЭ');
+                throw new Exception('Ошибка при исполнении изменения баллов ЕГЭ:'.$this->db->error);
             }
         }
         if($data['age']){
-            $stmt = $this->_db->prepare("UPDATE data
-                    SET age = ?
+            $stmt = $this->db->connect->prepare("UPDATE data
+                    SET birth_year = ?
                     WHERE login = ?
-                    AND pass = ?");
+                    AND password_hash = ?");
             if(!$stmt){
-                throw new Exception('Ошибка в запросе при обновлении года рождения');
+                throw new Exception('Ошибка в запросе при обновлении года рождения:'.$this->db->error);
             }
             $param6 = $stmt->bind_param("sss", $data['age'], $data['login'], $data['pass']);
             $run6 = $stmt->execute();
             if(!$param6){
-                throw new Exception('Ошибка при изменении параметров даты рождения');
+                throw new Exception('Ошибка при изменении параметров даты рождения:'.$this->db->error);
             }
             if(!$run6){
-                throw new Exception('Ошибка при исполнении изменения даты рождения');
+                throw new Exception('Ошибка при исполнении изменения даты рождения:'.$this->db->error);
             }
         }
 
@@ -252,36 +245,36 @@ class TableStudentsGateway{
         $likeSearch = '%'.$search.'%';
         if($sort){
         
-        $stmt = $this->_db->prepare("SELECT name, second_name, grup, score FROM data 
+        $stmt = $this->db->connect->prepare("SELECT name, second_name, class, score FROM data 
             WHERE name LIKE ?
             OR second_name LIKE ?
-            OR grup LIKE ?
+            OR class LIKE ?
             OR score LIKE ? 
             ORDER BY $sort LIMIT ?,?");
         if(!$stmt){
-                throw new Exception('Ошибка в запросе при поиске');
+                throw new Exception('Ошибка в запросе при поиске:'.$this->db->error);
             }
         $param = $stmt->bind_param("ssssii", $likeSearch, $likeSearch, $likeSearch, $likeSearch, $start, $perPage);
         $run = $stmt->execute();
         }else{
-        $stmt = $this->_db->prepare($sql = "SELECT name, second_name, grup, score FROM data 
+        $stmt = $this->db->connect->prepare($sql = "SELECT name, second_name, class, score FROM data 
             WHERE name LIKE ?
             OR second_name LIKE ?
-            OR grup LIKE ?
+            OR class LIKE ?
             OR score LIKE ?
             ORDER BY score DESC LIMIT ?,?");
         if(!$stmt){
-                throw new Exception('Ошибка в запросе при поиске');
+                throw new Exception('Ошибка в запросе при поиске:'.$this->db->error);
             }
         $param = $stmt->bind_param("ssssii", $likeSearch, $likeSearch, $likeSearch, $likeSearch, $start, $perPage);
         $run = $stmt->execute();
         
         }
         if(!$param){
-            throw new Exception('Ошибка при изменении параметров поиска');
+            throw new Exception('Ошибка при изменении параметров поиска:'.$this->db->error);
         }
         if(!$run){
-            throw new Exception('Ошибка при исполнении поиска');
+            throw new Exception('Ошибка при исполнении поиска:'.$this->db->error);
         }
         $result = $stmt->get_result();
 
@@ -293,49 +286,25 @@ class TableStudentsGateway{
         return $arr;
     }   
 
-    function isLogin($login, $pass = ''){
-            $sql = "SELECT login, pass
+    function getLoginPass(){
+            $sql = "SELECT login, password_hash
                     FROM data
                     ";
         
-        if($login and $pass){
-            $result = $this->_db->query($sql);
-            echo $this->_db->error;
+        
+            $result = $this->db->connect->query($sql);
+            echo $this->db->error;
 
-            while($row = $result->fetch_array(MYSQLI_ASSOC)){
-                $hash = password_verify($pass, $row['pass']);
-                if(($row['login'] == $login) and ($hash)){
-                    
-                    return $row['pass'];
-                }
-            }
-        }
-        if($login){
-            $result = $this->_db->query($sql);
-            echo $this->_db->error;
-            while($row = $result->fetch_array(MYSQLI_ASSOC)){
-
-                if($row['login'] == $login){
-                
-                    return true;
-                }
-            }
+            return $result;
         }
 
-    }
+        
+        
 
-    function checkEmailForForms($email){
+    function getEmail(){
         $sql = "SELECT email from data";
-        $result = $this->_db->query($sql);
-        echo $this->_db->error;
-
-        while($row = $result->fetch_array(MYSQLI_ASSOC)){
-            
-                if($row['email'] == $email){
-                    
-                    return true;
-                }
-            }
+        $result = $this->db->connect->query($sql);
+        return $result;
     }
 
 }

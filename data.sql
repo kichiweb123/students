@@ -31,22 +31,23 @@ SET time_zone = "+00:00";
 CREATE TABLE `data` (
   `id` int(11) NOT NULL,
   `login` varchar(50) NOT NULL,
-  `pass` varchar(150) NOT NULL,
+  `password_hash` varchar(150) NOT NULL,
   `name` varchar(15) NOT NULL,
   `second_name` varchar(15) NOT NULL,
-  `grup` varchar(20) NOT NULL,
+  `class` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `score` smallint(6) NOT NULL,
-  `age` year(4) NOT NULL,
+  `birth_year` year(4) NOT NULL,
   `localy` enum('resident','foreign') NOT NULL,
   `sex` enum('male','female') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT 'password_hash это хеш с солью полученный с помощью встроенной функции password_hash()';
 
 --
 -- Дамп данных таблицы `data`
 --
 
-INSERT INTO `data` (`id`, `login`, `pass`, `name`, `second_name`, `grup`, `email`, `score`, `age`, `localy`, `sex`) VALUES
+INSERT INTO `data` (`id`, `login`, `password_hash`, `name`, `second_name`, `class`, `email`, `score`, `birth_year`, `localy`, `sex`) VALUES
 (59, 'kirill', '$2y$10$QaJM7hZAY74wucDInA9nJOuygFQ04h1t.xbbECvpSVm8CtY81yKaS', 'Кирилл', 'Воробьев', '200', 'kirill@mail.ru', 300, 1998, 'resident', 'male'),
 (60, 'antony', '$2y$10$oIYq4NmVmoiYQQl6zxA5uuvON6n/Krj2eH60H.oG0t/8JHIGFZw7y', 'Антон', 'Никитин', '100ргб', 'anton@yandex.ru', 250, 1993, 'foreign', 'male');
 

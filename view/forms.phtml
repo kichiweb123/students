@@ -54,15 +54,15 @@
 		<label for="grup">Номер группы
 		<?php 
 			if($_GET['id'] == 'edit_profile'){
-				echo ":".htmlspecialchars($editProf[0]['grup'], ENT_QUOTES);
+				echo ":".htmlspecialchars($editProf[0]['class'], ENT_QUOTES);
 			}
 			if($_GET['id'] == 'registration'){
 				echo "(Обязательно для заполнения)";
 			}	
 
 		?></label>
-		<input type="text" class="form-control" name="grup" id="grup">
-		<?php echo "<span style='color:red;'>{$errors['grup']}</span><br>"; ?>
+		<input type="text" class="form-control" name="class" id="grup">
+		<?php echo "<span style='color:red;'>{$errors['class']}</span><br>"; ?>
 
 		<label for="email">Емейл
 		<?php 
@@ -96,7 +96,7 @@
 		<label for="age">Год рождения
 		<?php 
 			if($_GET['id'] == 'edit_profile'){
-				echo ":".htmlspecialchars($editProf[0]['age'], ENT_QUOTES);
+				echo ":".htmlspecialchars($editProf[0]['birth_year'], ENT_QUOTES);
 			}
 			if($_GET['id'] == 'registration'){
 				echo "(Обязательно для заполнения)";

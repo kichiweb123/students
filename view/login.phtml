@@ -14,11 +14,11 @@ if(!($_POST['login'] and $_POST['pass'])){
 	<button type="submit" class="btn btn-primary">Войти</button>
 </form>
 <?php
-}elseif(!$table->isLogin($login, $pass)){
+}elseif(!$container['Authorisation']->isLogin($login, $pass)){
 	echo "<p>Вы неправильно ввели данные.</p><a href='?id=login'>Попробовать еще раз</a>";
-}elseif($hash = $table->isLogin($login, $pass)){
-	$auth = new Authorisation();
-	$auth->authLogin($login, $hash);
+}elseif($hash = $container['Authorisation']->isLogin($login, $pass)){
+	
+	$container['Authorisation']->authLogin($login, $hash);
 ?>
 <p>Вы вошли как: <?php echo $login; ?></p>
 <p><a href='http://test1.ru' >Вернуться на главную!</a></p>

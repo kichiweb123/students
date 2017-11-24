@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 try{
 
 
-$editProf = $table->getAuthUser($data['login'], $data['pass']);
+$editProf = $container['TableStudentsGateway']->getAuthUser($data['login'], $data['pass']);
 
 
 }catch(Exception $e){

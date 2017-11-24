@@ -2,7 +2,7 @@
 
 $offset = $_GET['p'];
 $sort = false;
-$whiteList = array('name', 'second_name', 'grup');
+$whiteList = array('name', 'second_name', 'class');
 foreach($whiteList as $list){
     if($list == $_GET['sort']){
         $sort = $_GET['sort'];
@@ -30,8 +30,8 @@ if($search1){
 
 }else{
     try{
-    $rows = $table->getStudentCount($search, $offset, $perPage);
-    $cells = $table->findPage($search, $offset, $perPage, $sort);
+    $rows = $container['TableStudentsGateway']->getStudentCount($search, $offset, $perPage);
+    $cells = $container['TableStudentsGateway']->findPage($search, $offset, $perPage, $sort);
     }catch(Exception $e){
         $error = $e->getMessage();
         $error = $error."\r\n";
@@ -45,7 +45,7 @@ if($search1){
 }
 
 require_once "../view/search.phtml";
-
-$pages = $table->getPageCount($rows, $perPage);
+$util = New Util();
+$pages = $util->getPageCount($rows, $perPage);
 require_once "../view/pages.phtml";
 ?>

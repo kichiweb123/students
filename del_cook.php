@@ -1,6 +1,6 @@
 <?php
-$auth = new Authorisation();
-$auth->exitLogin();
+
+$container['Authorisation']->exitLogin();
 
 header('Location: http://test1.ru');
 

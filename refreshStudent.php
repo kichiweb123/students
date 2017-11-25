@@ -9,11 +9,11 @@ $data['score'] = $_POST['score'];
 $data['age'] = $_POST['age'];
 
 
-
 $errors = $container['Validation']->validateProfile($data['name'], $data['sname'], $data['score'], $data['email']);
 if(!$errors){
     try{
     $container['TableStudentsGateway']->refreshStudent($data);
+    
     }catch(Exception $e){
         $error = $e->getMessage();
         $error = $error."\r\n";

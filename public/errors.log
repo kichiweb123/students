@@ -22,4 +22,8 @@
 Ошибка в запросе при получении студентов
 Ошибка в запросе при получении студентов
 Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
+
+Ошибка в запросе при получении студентов:
+Ошибка в запросе при обновлении имени:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name = ?)
+                    WHERE login = ?
+                    AND passwor' at line 2

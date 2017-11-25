@@ -41,6 +41,7 @@ $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort
 
 require_once "../view/table.phtml";
 $util = New Util();
-$pages = $util->getPageCount($numOfRows, $perPage);
+$pages = $util->getPageCount($numOfRows[0]['COUNT(*)'], $perPage);
+
 require_once "../view/pages.phtml";
 ?>

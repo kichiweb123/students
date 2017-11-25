@@ -46,6 +46,6 @@ if($search1){
 
 require_once "../view/search.phtml";
 $util = New Util();
-$pages = $util->getPageCount($rows, $perPage);
+$pages = $util->getPageCount($rows[0]['COUNT(*)'], $perPage);
 require_once "../view/pages.phtml";
 ?>

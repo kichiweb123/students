@@ -27,3 +27,10 @@
 Ошибка в запросе при обновлении имени:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name = ?)
                     WHERE login = ?
                     AND passwor' at line 2
+Ошибка в запросе при получении студентов:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SLECT name, second_name, class, score FROM data ORDER BY score DESC LIMIT ?, ?' at line 1
+Ошибка в задании параметров при добавлении студента:
+Ошибка в задании параметров при добавлении студента:
+Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
+                                            AND password_hash =' at line 3
+Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
+                                            AND password_hash =' at line 3

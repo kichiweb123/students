@@ -1,6 +1,6 @@
 <?php 
 
-if(!($_POST['login'] and $_POST['pass'])){
+if(!$login and !$pass){
 ?>
 <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
 	<div class="form-group col-md-6">
@@ -14,9 +14,9 @@ if(!($_POST['login'] and $_POST['pass'])){
 	<button type="submit" class="btn btn-primary">Войти</button>
 </form>
 <?php
-}elseif(!$container['Authorisation']->isLogin($login, $pass)){
+}elseif(!$container['TableStudentsGateway']->getLoginPass($login, $pass)){
 	echo "<p>Вы неправильно ввели данные.</p><a href='?id=login'>Попробовать еще раз</a>";
-}elseif($hash = $container['Authorisation']->isLogin($login, $pass)){
+}elseif($hash = $container['TableStudentsGateway']->getLoginPass($login, $pass)){
 	
 	$container['Authorisation']->authLogin($login, $hash);
 ?>

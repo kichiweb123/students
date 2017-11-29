@@ -20,7 +20,7 @@ class Validation{
         if((strlen($data['name'])>25) or !$data['name']){
             $errors['name'] = 'Ошибка в имени';
         }
-        if((strlen($data['sname'])>25) or !$data['sname']){
+        if((strlen($data['second_name'])>25) or !$data['second_name']){
             $errors['second_name'] = 'Ошибка в фамилии';    
         }
         if(!$data['class']){
@@ -44,10 +44,10 @@ class Validation{
 
         
 
-        if($this->authorisation->isLogin($data['login'])){
+        if($this->tableStudentGateway->getLoginPass($data['login'], false, true)){
             $errors['login_exsist'] = "Такой логин уже зарегистрирован";
         }
-        if($this->authorisation->isEmailUsed($data['email'])){
+        if($this->tableStudentGateway->isEmailUsed($data['email'])){
             $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
         }
         return $errors;
@@ -67,7 +67,7 @@ class Validation{
             $errors['score'] = 'Ошибка в баллах ЕГЭ';
         }
 
-        if($this->authorisation->isEmailUsed($email)){
+        if($this->tableStudentGateway->isEmailUsed($email)){
             $errors['email_exsist'] = "Такой емейл уже зарегистрирован";
         }
         return $errors;

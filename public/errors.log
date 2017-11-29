@@ -34,3 +34,11 @@
                                             AND password_hash =' at line 3
 Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
                                             AND password_hash =' at line 3
+Ошибка в запросе при получении студентов:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT ?, ?' at line 1
+Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
+                AND password_hash = ?' at line 3
+Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
+                AND password_hash = ?' at line 3
+Ошибка в параметрах при обновлении студента:
+Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
+                AND password_hash = ?' at line 3

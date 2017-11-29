@@ -14,15 +14,8 @@ $numOfRows = $container['TableStudentsGateway']->getStudentCount();
 }
 $offset = $_GET['p'];
 
-$sort = false;
+$sort = $_GET['sort'];
 
-$whiteList = array('name', 'second_name', 'class');
-
-foreach($whiteList as $list){
-    if($list == $_GET['sort']){
-        $sort = $_GET['sort'];
-    }
-}
 
 
 try{

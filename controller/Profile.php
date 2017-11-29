@@ -2,7 +2,7 @@
 $data = array();
 
 $data['login'] = $_COOKIE['login'];
-$data['pass'] = $_COOKIE['pass'];
+$data['hash'] = $_COOKIE['pass'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     require_once "../refreshStudent.php";
@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 try{
 
 
-$editProf = $container['TableStudentsGateway']->getAuthUser($data['login'], $data['pass']);
+$editProf = $container['TableStudentsGateway']->getAuthUser($data['login'], $data['hash']);
 
 
 }catch(Exception $e){

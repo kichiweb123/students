@@ -1,21 +1,14 @@
 <?php
 
 $offset = $_GET['p'];
-$sort = false;
-$whiteList = array('name', 'second_name', 'class');
-foreach($whiteList as $list){
-    if($list == $_GET['sort']){
-        $sort = $_GET['sort'];
-    }
-}
-
+$sort = $_GET['sort'];
 $search = $_POST['search'];
 $search1 = $_GET['search'];
 
 
 if($search1){
     try{
-    $cells = $container['TableStudentsGateway']->findPage($search1, $offset, $perPage, $sort);
+    $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort, $search1);
     $rows = $container['TableStudentsGateway']->getStudentCount($search1, $offset, $perPage);
     }catch(Exception $e){
         $error = $e->getMessage();
@@ -31,7 +24,7 @@ if($search1){
 }else{
     try{
     $rows = $container['TableStudentsGateway']->getStudentCount($search, $offset, $perPage);
-    $cells = $container['TableStudentsGateway']->findPage($search, $offset, $perPage, $sort);
+    $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort, $search);
     }catch(Exception $e){
         $error = $e->getMessage();
         $error = $error."\r\n";

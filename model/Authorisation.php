@@ -28,17 +28,6 @@ class Authorisation{
         }
 	}
 
-    function isEmailUsed($email){
-        $result = $this->tableStudentGateway->getEmail();
-
-        while($row = $result->fetch_array(MYSQLI_ASSOC)){
-            
-                if($row['email'] == $email){
-                    
-                    return true;
-                }
-    }
-    }
     function authLogin($login, $pass){
         setcookie("login", "$login", 0x7FFFFFFF, '/', null, false, true);
         setcookie("pass", "$pass", 0x7FFFFFFF, '/', null, false, true);

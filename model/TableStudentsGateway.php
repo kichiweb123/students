@@ -221,15 +221,14 @@ class TableStudentsGateway
         $parameters['error_run']     = 'Ошибка при исполнении обвновления студента:';
         
         $parameters['bind_param'] = array();
-        $parameters['bind_param']['type'] =& $type;
+        
         $parameters['bind_param']['name'] =& $student->name;
-        $parameters['bind_param']['sname'] =& $student->sname;
+        $parameters['bind_param']['second_name'] =& $student->sname;
         $parameters['bind_param']['class'] =& $student->class;
         $parameters['bind_param']['email'] =& $student->email;
         $parameters['bind_param']['score'] =& $student->score;
-        $parameters['bind_param']['age'] =& $student->age;
-        $parameters['bind_param']['login'] =& $student->login;
-        $parameters['bind_param']['pass'] =& $student->hash;
+        $parameters['bind_param']['birth_year'] =& $student->age;
+        
         
         foreach ($parameters as &$p) {
             if (is_array($p)) {
@@ -242,47 +241,25 @@ class TableStudentsGateway
             }
         }
         
-        
-        if ($student->name) {
-            $name = "name = ?";
+        foreach($parameters['bind_param'] as $s=>$k){
+            if($k != ""){
+                $test[] = "$s = ?";
+            }
         }
+
+        $sql_input = implode(",", $test);
         
-        if (!($student->name) and $student->sname) {
-            
-            $sname = "second_name = ?";
-        } elseif ($student->name and $student->sname) {
-            $sname = ", second_name = ?";
-        }
-        
-        if (!$student->name and !$student->sname and $student->class) {
-            $class = "class = ?";
-        } elseif (($student->name or $student->sname) and $student->class) {
-            $class = ", class = ?";
-        }
-        
-        if (!$student->name and !$student->sname and !$student->class and $student->email) {
-            $email = "email = ?";
-        } elseif (($student->name or $student->sname or $student->class) and $student->email) {
-            $email = ", email = ?";
-        }
-        
-        if (!$student->name and !$student->sname and !$student->class and !$student->email and $student->score) {
-            $score = "score = ?";
-        } elseif (($student->name or $student->sname or $student->class or $student->email) and $student->score) {
-            $score = ", score = ?";
-        }
-        
-        if (!$student->name and !$student->sname and !$student->class and !$student->email and !$student->score and $student->age) {
-            $age = "birth_year = ?";
-        } elseif (($student->name or $student->sname or $student->class or $student->email or $student->score) and $student->age) {
-            $age = ", birth_year = ?";
-        }
+
         
         $sql = "UPDATE students
-                SET " . $name . $sname . $class . $email . $score . $age . "
+                SET " . $sql_input . "
                 WHERE login = ?
                 AND password_hash = ?";
+        $add = array('type' => &$type);
+        $parameters['bind_param'] = $add + $parameters['bind_param'];
         
+        $parameters['bind_param']['login'] =& $student->login;
+        $parameters['bind_param']['pass'] =& $student->hash;
         $stmt = $this->executeQuery($sql, $parameters);
     }
     

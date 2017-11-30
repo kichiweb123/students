@@ -1,57 +1,11 @@
-﻿Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при добавлении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в задании параметров при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-Ошибка в запросе при получении студентов
-
-Ошибка в запросе при получении студентов:
-Ошибка в запросе при обновлении имени:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name = ?)
-                    WHERE login = ?
-                    AND passwor' at line 2
-Ошибка в запросе при получении студентов:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SLECT name, second_name, class, score FROM data ORDER BY score DESC LIMIT ?, ?' at line 1
-Ошибка в задании параметров при добавлении студента:
-Ошибка в задании параметров при добавлении студента:
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                                            AND password_hash =' at line 3
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                                            AND password_hash =' at line 3
-Ошибка в запросе при получении студентов:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT ?, ?' at line 1
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                AND password_hash = ?' at line 3
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                AND password_hash = ?' at line 3
-Ошибка в параметрах при обновлении студента:
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                AND password_hash = ?' at line 3
-Ошибка в параметрах при обновлении студента:
-Ошибка в параметрах при обновлении студента:
-Ошибка в запросе при обновлении студента:Unknown column 'age' in 'field list'
-Ошибка в запросе при обновлении студента:Unknown column 'age' in 'field list'
-Ошибка в запросе при обновлении студента:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE login = ?
-                AND password_hash = ?' at line 3
-Ошибка в параметрах при обновлении студента:
-Ошибка в параметрах при обновлении студента:
-Ошибка в параметрах при обновлении студента:
-Ошибка в параметрах при обновлении студента:
-Ошибка в запросе при обновлении студента:Unknown column 'sname' in 'field list'
-Ошибка в параметрах при обновлении студента:
-Ошибка в параметрах при обновлении студента:
+﻿
+exception 'Exception' with message '[30.11.2017 22:06:11][/index.php?id=registration] Невозможно подключиться к БД:php_network_getaddresses: getaddrinfo failed: Этот хост неизвестен. ' in C:\Web\OSPanel\domains\test1.ru\model\ConnectDb.php:15
+Stack trace:
+#0 C:\Web\OSPanel\domains\test1.ru\public\index.php(19): ConnectDb->__construct()
+#1 {main}
+exception 'Exception' with message '[30.11.2017 22:15:23][/index.php] Ошибка в запросе при получении студентов:Unknown column 'nme' in 'field list'' in C:\Web\OSPanel\domains\test1.ru\model\TableStudentsGateway.php:49
+Stack trace:
+#0 C:\Web\OSPanel\domains\test1.ru\model\TableStudentsGateway.php(119): TableStudentsGateway->executeQuery('SELECT nme, sec...', Array)
+#1 C:\Web\OSPanel\domains\test1.ru\controller\Table.php(22): TableStudentsGateway->getStudent(NULL, 5, NULL)
+#2 C:\Web\OSPanel\domains\test1.ru\public\index.php(80): include('C:\\Web\\OSPanel\\...')
+#3 {main}

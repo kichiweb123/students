@@ -89,7 +89,7 @@
 				echo ":".htmlspecialchars($editProf[0]->score, ENT_QUOTES);
 			}
 
-		?>(Не больше 300)</label>
+		?>(Не больше 300, только числа)</label>
 		<input type="text" class="form-control" name="score" id="score">
 		<?php echo "<span style='color:red;'>{$errors['score']}</span><br>"; ?>
 
@@ -99,7 +99,7 @@
 				echo ":".htmlspecialchars($editProf[0]->age, ENT_QUOTES);
 			}
 			if($_GET['id'] == 'registration'){
-				echo "(Обязательно для заполнения)";
+				echo "(Обязательно для заполнения, только числа от 1970 до 2000)";
 			}
 
 		?></label>

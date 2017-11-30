@@ -46,7 +46,7 @@ class TableStudentsGateway
     {
         $stmt = $this->db->connect->prepare($sql);
         if (!$stmt) {
-            throw new Exception($parameters['error_prepare'] . $this->db->connect->error);
+            throw new Exception('['.date('d.m.Y G:i:s').'][' . $_SERVER['REQUEST_URI'] . '] '.$parameters['error_prepare'] . $this->db->connect->error);
         }
         
         if (!$enable_param) {
@@ -59,10 +59,10 @@ class TableStudentsGateway
         }
         $run = $stmt->execute();
         if (!$param) {
-            throw new Exception($parameters['error_param'] . $this->db->connect->error);
+            throw new Exception('['.date('d.m.Y G:i:s').'][' . $_SERVER['REQUEST_URI'] . '] '.$parameters['error_param'] . $this->db->connect->error);
         }
         if (!$run) {
-            throw new Exception($parameters['error_run'] . $this->db->connect->error);
+            throw new Exception('['.date('d.m.Y G:i:s').'][' . $_SERVER['REQUEST_URI'] . '] '.$parameters['error_run'] . $this->db->connect->error);
         }
         return $stmt;
     }

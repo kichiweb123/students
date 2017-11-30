@@ -14,13 +14,13 @@ if(!$login and !$pass){
 	<button type="submit" class="btn btn-primary">Войти</button>
 </form>
 <?php
-}elseif(!$container['TableStudentsGateway']->getLoginPass($login, $pass)){
+}elseif(!$hash){
 	echo "<p>Вы неправильно ввели данные.</p><a href='?id=login'>Попробовать еще раз</a>";
-}elseif($hash = $container['TableStudentsGateway']->getLoginPass($login, $pass)){
+}elseif($hash){
 	
-	$container['Authorisation']->authLogin($login, $hash);
+	
 ?>
-<p>Вы вошли как: <?php echo $login; ?></p>
+<p>Вы вошли как: <?php echo htmlspecialchars($login); ?></p>
 <p><a href='http://test1.ru' >Вернуться на главную!</a></p>
 <p><a href='?id=edit_profile'>Редактировать профиль</a>
 <?php

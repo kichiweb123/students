@@ -3,13 +3,13 @@ try{
 $numOfRows = $container['TableStudentsGateway']->getStudentCount();
 
 }catch(Exception $e){
-    $error = $e->getMessage();
+    $error = $e->__toString();
     $error = $error."\r\n";
     
     if(is_file($file)){
         error_log($error, 3, $file);
     }
-    header('Location: error.php');
+    include 'error.php';
     exit;
 }
 $offset = $_GET['p'];
@@ -21,13 +21,13 @@ $sort = $_GET['sort'];
 try{
 $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort);
 }catch(Exception $e){
-    $error = $e->getMessage();
+    $error = $e->__toString();
     $error = $error."\r\n";
     
     if(is_file($file)){
         error_log($error, 3, $file);
     }
-    header('Location: error.php');
+    include 'error.php';
     
     exit;
 }

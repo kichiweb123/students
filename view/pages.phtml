@@ -1,7 +1,8 @@
+<div class='pag_num'>
 <?php
-echo "<div class='pag_num'>";
+$pagination = new Util();
 
-	if(!$offset == 0){
+	if(!($offset == 0)){
 
 
 
@@ -12,7 +13,13 @@ echo "<div class='pag_num'>";
 			echo "<a href='?id=search&search=".$search1."&p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
 		}
 		}else{
-			echo "<a href='?p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
+			$arrPrev = array(
+				'p'=> $offset-1,
+				'sort'=>$sort
+			);
+			$namePrev = 'Назад';
+			$b = $pagination->generateUrlForPagination($arrPrev, $namePrev);
+			echo $b;
 		}
 	}	
 	for($i=0; $i<$pages; $i++){
@@ -52,6 +59,6 @@ echo "<div class='pag_num'>";
 		}
 
 	}
-echo "</div>";
 
 ?>
+</div>

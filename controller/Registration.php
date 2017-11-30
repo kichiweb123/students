@@ -1,4 +1,5 @@
 <?php
+if(($_SERVER["REQUEST_METHOD"] == "POST") and ($_GET['id'] == "registration")){
 $data = array();
 $data['login'] = strtolower($_POST['login']);
 $data['pass'] = $_POST['pass'];
@@ -20,22 +21,26 @@ $student = new Student($data);
 
 $errors = $container['Validation']->validateStudent($data);
 
-if(!$errors){
-try{
-$container['TableStudentsGateway']->addStudent($student);
-}catch(Exception $e){
-    $error = $e->__toString();
-    $error = $error."\r\n";
     
-    if(is_file($file)){
-        error_log($error, 3, $file);
-    }
-    include 'error.php';
-    exit;
+	if(!$errors){
+		try{
+			$container['TableStudentsGateway']->addStudent($student);
+		}catch(Exception $e){
+		    $error = $e->__toString();
+		    $error = $error."\r\n";
+		    
+			    if(is_file($file)){
+			        error_log($error, 3, $file);
+			    }
+		    include 'error.php';
+		    exit;
+		}
+
+		$container['Authorisation']->authLogin($data['login'], $data['hash']);
+		header('Location: http://test1.ru/?id=edit_profile');
+
+	}
 }
 
-$container['Authorisation']->authLogin($data['login'], $data['hash']);
-header('Location: http://test1.ru/?id=edit_profile');
-
-}
+require_once "../view/forms.phtml"
 ?>

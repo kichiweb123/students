@@ -1,8 +1,8 @@
 <?php 
 if($search){
-	echo "Найдены запросы по слову \"$search\":<br>"; 
+	echo "Найдены запросы по слову \"". htmlspecialchars($search) . "\":<br>"; 
 }else{
-	echo "Найдены запросы по слову \"$search1\":<br>";
+	echo "Найдены запросы по слову \"". htmlspecialchars($search1) ."\":<br>";
 }
 ?>
 <div class="row content">

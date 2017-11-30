@@ -11,13 +11,13 @@ if($search1){
     $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort, $search1);
     $rows = $container['TableStudentsGateway']->getStudentCount($search1, $offset, $perPage);
     }catch(Exception $e){
-        $error = $e->getMessage();
+        $error = $e->__toString();
         $error = $error."\r\n";
     
         if(is_file($file)){
             error_log($error, 3, $file);
         }
-        header('Location: error.php');
+        include 'error.php';
         exit;
     }
 
@@ -26,13 +26,13 @@ if($search1){
     $rows = $container['TableStudentsGateway']->getStudentCount($search, $offset, $perPage);
     $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort, $search);
     }catch(Exception $e){
-        $error = $e->getMessage();
+        $error = $e->__toString();
         $error = $error."\r\n";
     
         if(is_file($file)){
             error_log($error, 3, $file);
         }
-        header('Location: error.php');
+        include 'error.php';
         exit;
     }
 }

@@ -7,7 +7,7 @@ Class Util{
 
     function generateUrlForPagination(array $atr, $nameUrl){
     	$atr_str = http_build_query($atr);
-    	$url = "<a href='?{$atr_str}'>{$nameUrl}</a>";
+    	$url = "<a href='?".htmlspecialchars($atr_str)."'>{$nameUrl}</a>";
     	return $url;
     }
 }

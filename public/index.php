@@ -30,7 +30,7 @@ $container['Validation'] = new Validation($container['TableStudentsGateway'], $c
     exit;
 }
 $cells = ""; /* ячейки под таблицу ассоциативную */
-$perPage = 5;/*переменная отвечает за количество выводимых строк в таблице*/
+$perPage = 3;/*переменная отвечает за количество выводимых строк в таблице*/
 
 
 
@@ -72,7 +72,7 @@ $id = $_GET['id'];
             include '../del_cook.php';
             break;
         case 'search':
-            include '../controller/Search.php';
+            include '../controller/Table.php';
             break;
         default:
             include '../controller/Table.php'; 

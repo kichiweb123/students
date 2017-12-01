@@ -1,40 +1,54 @@
 <?php
-try{
-$numOfRows = $container['TableStudentsGateway']->getStudentCount();
 
-}catch(Exception $e){
-    $error = $e->__toString();
-    $error = $error."\r\n";
-    
-    if(is_file($file)){
-        error_log($error, 3, $file);
+$offset  = $_GET['p'];
+$sort    = $_GET['sort'];
+$search  = $_POST['search'];
+$search1 = $_GET['search'];
+
+if ($_GET['id'] == 'search') {
+    if ($search1) {
+        $find = $search1;
+    } else {
+        $find = $search;
     }
-    include 'error.php';
-    exit;
-}
-$offset = $_GET['p'];
-
-$sort = $_GET['sort'];
-
-
-
-try{
-$cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort);
-}catch(Exception $e){
-    $error = $e->__toString();
-    $error = $error."\r\n";
+        try {
+            $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort, $find);
+            $rows  = $container['TableStudentsGateway']->getStudentCount($find, $offset, $perPage);
+        }
+        catch (Exception $e) {
+            $error = $e->__toString();
+            $error = $error . "\r\n";
+            
+            if (is_file($file)) {
+                error_log($error, 3, $file);
+            }
+            include 'error.php';
+            exit;
+        }
+        
     
-    if(is_file($file)){
-        error_log($error, 3, $file);
+        require_once "../view/search.phtml";
+} else {
+
+    try {
+        $rows = $container['TableStudentsGateway']->getStudentCount();
+        $cells = $container['TableStudentsGateway']->getStudent($offset, $perPage, $sort);
     }
-    include 'error.php';
+    catch (Exception $e) {
+        $error = $e->__toString();
+        $error = $error . "\r\n";
+        
+        if (is_file($file)) {
+            error_log($error, 3, $file);
+        }
+        include 'error.php';
+        
+        exit;
+    }
     
-    exit;
+    require_once "../view/table.phtml";
 }
-
-require_once "../view/table.phtml";
-$util = New Util();
-$pages = $util->getPageCount($numOfRows[0]['COUNT(*)'], $perPage);
-
+$util  = New Util();
+$pages = $util->getPageCount($rows[0]['COUNT(*)'], $perPage);
 require_once "../view/pages.phtml";
 ?>

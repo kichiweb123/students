@@ -2,63 +2,131 @@
 <?php
 $pagination = new Util();
 
-	if(!($offset == 0)){
-
-
-
-	if($_GET['id'] == 'search'){
-		if($search){
-			echo "<a href='?id=search&search=".$search."&p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
-		}else{
-			echo "<a href='?id=search&search=".$search1."&p=".($offset-1)."&sort={$_GET['sort']}'>Назад </a>";
-		}
-		}else{
-			$arrPrev = array(
-				'p'=> $offset-1,
-				'sort'=>$sort
-			);
-			$namePrev = 'Назад';
-			$b = $pagination->generateUrlForPagination($arrPrev, $namePrev);
-			echo $b;
-		}
-	}	
-	for($i=0; $i<$pages; $i++){
-		if($_GET['id'] == 'search'){
-
-			if($search){
-				if($sort){
-					echo "<a href='?id=search&search=".$search."&p={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
-				}else{
-					echo "<a href='?id=search&search=".$search."&p={$i}'>".($i+1)."</a>";
-				}}else{
-				if($sort){
-					echo "<a href='?id=search&search=".$search1."&p={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
-				}else{
-					echo "<a href='?id=search&search=".$search1."&p={$i}'>".($i+1)."</a>";
-				}
-				}
-
-		}else{
-			if($sort){
-			echo "<a href='?p={$i}&sort={$_GET['sort']}'>".($i+1)."</a>";
-			}else{
-				echo "<a href='?p={$i}'>".($i+1)."</a>";
-			}
-		}
-	}
-	if(!($offset == ($pages-1))){
-
-		if($_GET['id'] == 'search'){
-			if($search){
-			echo "<a href='?id=search&search=".$search."&p=".($offset+1)."&sort={$_GET['sort']}'> Вперед</a>";
-		}else{
-			echo "<a href='?id=search&search=".$search1."&p=".($offset+1)."&sort={$_GET['sort']}'> Вперед</a>";
-		}
-		}else{
-			echo "<a href='?p=".($offset+1)."&sort={$_GET['sort']}'> Вперед</a>";
-		}
-
-	}
+if (!($offset == 0)) {
+    $namePrev       = 'Назад';
+    $prevTable      = array(
+        'p' => $offset - 1,
+        'sort' => $sort
+    );
+    $prevSearchPost = array(
+        'id' => 'search',
+        'search' => $search,
+        'p' => $offset - 1,
+        'sort' => $sort
+    );
+    $prevSearchGet  = array(
+        'id' => 'search',
+        'search' => $search1,
+        'p' => $offset - 1,
+        'sort' => $sort
+    );
+    
+    if ($_GET['id'] == 'search') {
+        if ($search) {
+            $prevUrlSearchPost = $pagination->generateUrlForPagination($prevSearchPost, $namePrev);
+            echo $prevUrlSearchPost;
+        } else {
+            $prevUrlSearchGet = $pagination->generateUrlForPagination($prevSearchGet, $namePrev);
+            echo $prevUrlSearchGet;
+        }
+    } else {
+        $prevUrlTable = $pagination->generateUrlForPagination($prevTable, $namePrev);
+        echo $prevUrlTable;
+    }
+}
+for ($i = 0; $i < $pages; $i++) {
+    $pagName           = $i + 1;
+    $pagTableSort      = array(
+        'p' => $i,
+        'sort' => $sort
+    );
+    $pagTable          = array(
+        'p' => $i
+    );
+    $pagSearchSortPost = array(
+        'id' => 'search',
+        'search' => $search,
+        'p' => $i,
+        'sort' => $sort
+    );
+    $pagSearchSortGet  = array(
+        'id' => 'search',
+        'search' => $search1,
+        'p' => $i,
+        'sort' => $sort
+    );
+    $pagSearchPost     = array(
+        'id' => 'search',
+        'search' => $search,
+        'p' => $i
+    );
+    $pagSearchGet      = array(
+        'id' => 'search',
+        'search' => $search1,
+        'p' => $i
+    );
+    if ($_GET['id'] == 'search') {
+        
+        if ($search) {
+            if ($sort) {
+                $pagUrlSearchSortPost = $pagination->generateUrlForPagination($pagSearchSortPost, $pagName);
+                echo $pagUrlSearchSortPost;
+            } else {
+                $pagUrlSearchPost = $pagination->generateUrlForPagination($pagSearchPost, $pagName);
+                echo $pagUrlSearchPost;
+            }
+        } else {
+            if ($sort) {
+                $pagUrlSearchSortGet = $pagination->generateUrlForPagination($pagSearchSortGet, $pagName);
+                echo $pagUrlSearchSortGet;
+            } else {
+                $pagUrlSearchGet = $pagination->generateUrlForPagination($pagSearchGet, $pagName);
+                echo $pagUrlSearchGet;
+            }
+        }
+        
+    } else {
+        if ($sort) {
+            $pagUrlTableSort = $pagination->generateUrlForPagination($pagTableSort, $pagName);
+            echo $pagUrlTableSort;
+        } else {
+            $pagUrlTable = $pagination->generateUrlForPagination($pagTable, $pagName);
+            echo $pagUrlTable;
+        }
+    }
+}
+if (!($offset == ($pages - 1))) {
+    $nameNext       = 'Вперед';
+    $nextTable      = array(
+        'p' => $offset + 1,
+        'sort' => $sort
+    );
+    $nextSearchPost = array(
+        'id' => 'search',
+        'search' => $search,
+        'p' => $offset + 1,
+        'sort' => $sort
+    );
+    $nextSearchGet  = array(
+        'id' => 'search',
+        'search' => $search1,
+        'p' => $offset + 1,
+        'sort' => $sort
+    );
+    if ($_GET['id'] == 'search') {
+        if ($search) {
+            $nextUrlSearchPost = $pagination->generateUrlForPagination($nextSearchPost, $nameNext);
+            echo $nextUrlSearchPost;
+        } else {
+            $nextUrlSearchGet = $pagination->generateUrlForPagination($nextSearchGet, $nameNext);
+            echo $nextUrlSearchGet;
+        }
+    } else {
+        $nextUrlTable = $pagination->generateUrlForPagination($nextTable, $nameNext);
+        echo $nextUrlTable;
+    }
+    
+}
 
 ?>
 </div>
